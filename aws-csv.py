@@ -9,21 +9,22 @@ from boto.ec2 import EC2Connection
 
 def process_instance_list(connection):
     map(build_instance_list, connection.get_all_instances())
-    print(connection.get_all_instances())
+#    print(connection.get_all_instances())
 
 
 def build_instance_list(reservation):
+    print ("build_instance_list")
     map(write_instances, reservation.instances)
-    print(reservation)
 
 
 def write_instances(instance):
     environment = '-'
-    if 'environment' in instance.tags:
-        environment = instance.tags['environment']
+    print(instance)
+#    if 'environment' in instance.tags:
+#        environment = instance.tags['environment']
 
-    printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (instance.id, instance.tags['Name'], environment, instance.private_ip_address,
-                                                          instance.state, instance.placement, instance.architecture, instance.vpc_id, instance.kernel, instance.instance_type, instance.image_id, instance.launch_time))
+#    printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (instance.id, instance.tags['Name'], environment, instance.private_ip_address,
+#ß                                                          instance.state, instance.placement, instance.architecture, instance.vpc_id, instance.kernel, instance.instance_type, instance.image_id, instance.launch_time))
 
     # For more parameters to the boto.ec2.instance.Instance object, see here: http://boto.readthedocs.org/en/latest/ref/ec2.html#module-boto.ec2.instance
     # In our case, we use the "environment" tag to distinguish between dev/staging/prod instances.
@@ -36,6 +37,7 @@ if __name__ == "__main__":
 # connection = EC2Connection(aws_access_key_id='xxxxxxx', aws_secret_access_key='yyyyyyyyyyy')
     connection = EC2Connection()
     print(connection)
-    process_instance_list(connection)
+
+process_instance_list(connection)
 
 #csv_file.close()
